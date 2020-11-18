@@ -1,38 +1,49 @@
 
 import pandas as pd
+import selenium
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
 
 
-col_names = [
-    "Locality",
-    "Type",
-    "Subtype",
-    "Price",
-    "Sale",
-    "Number_rooms",
-    "Area",
-    "Fully_equipped_kitchen",
-    "Furnished",
-    "Open_fire",
-    "Terrace",
-    "Ter_Area",
-    "Garden",
-    "Area_garden",
-    "Livable_surface_area",
-    "Surface_area_land",
-    "Numb_facades",
-    "Swimming_pool"
-    "State"
-]
+def create_db():
+    
+    #Creating columns names for our dataframe 
+    col_names = [
+        "Locality",
+        "Type",
+        "Subtype",
+        "Price",
+        "Number_rooms",
+        "Area",
+        "Fully_equipped_kitchen",
+        "Furnished",
+        "Open_fire",
+        "Terrace",
+        "Ter_Area",
+        "Garden",
+        "Area_garden",
+        "Livable_surface_area",
+        "Surface_area_land",
+        "Numb_facades",
+        "Swimming_pool"
+        "State"
+    ]
+    
+    #Generating the dataframe with our columns
+    x = pd.DataFrame(columns = col_names)
+    
+    return x
 
-immo_db = pd.DataFrame(columns = col_names)
+immo_db = create_db()
 
 
+
+#Adding a new value to the dataframe
 immo_db = immo_db.append({    
     "Locality" : "Liège",
     "Type" : "Flat",
     "Subtype" : None,
     "Price" : 200.000,
-    "Sale" : "",
     "Number_rooms" : "",
     "Area" : "",
     "Fully_equipped_kitchen" : "",
@@ -50,5 +61,6 @@ immo_db = immo_db.append({
 print(immo_db)
 
 
-immo_db.to_csv(r'C:\Users\Guillaume\Desktop\Stage\Mémoire\Python\Crunchbase_v5\tweet_v3_2.xlsx', index=False)
+#exporting the dataframe to a csv file
+immo_db.to_csv("", index=False)
 
