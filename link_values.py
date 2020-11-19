@@ -35,7 +35,7 @@ def joiner_word(lo):
         
     return lo
 
-def get_info_prop(url):
+def get_info_prop(url, prop):
     
     
     '''
@@ -47,20 +47,27 @@ def get_info_prop(url):
     '''
     
     
+    
+    
     #Setting up variables and give them default values
     locality = None
+    type_prop = prop
     price = None
     room = None
     terasse = 0
     sur_terasse = None
+    kitchen = 0
     jardin = 0
     sur_jardin = None
     sur_habi = None
     sur_ter = None
+    furnished = 0
+    open_fire = 0
     fa = None
     piscine = 0
     state = None
     
+
     #setting up the driver
     driver = webdriver.Firefox(executable_path = r"C:\Users\Guillaume\Geckodriver\geckodriver.exe")
     
@@ -100,13 +107,8 @@ def get_info_prop(url):
             
             #Finding if the kitchen is equiped or not 
             # 1: Yes and 0: No
-            if "cuisine" in i:
-                if "pas" in o  and "équipée" in o:
-                    
-                    kitchen = 0
-                    
-                else:
-                    kitchen = 1
+            if "cuisine" in i and "équipée" in i and "pas" not in i:
+                kitchen = 1
             
             
             #Finding if a terasse is present and its area
@@ -132,12 +134,24 @@ def get_info_prop(url):
                 sur_habi = re.findall("\d",i)
                 sur_habi = joiner_num(sur_habi)
                 
-            #Finding the total land area
+            #Finding out the total land area
             if "Surface du terrain" in i:
                 
                 sur_ter = re.findall("\d",i)
                 sur_ter = joiner_num(sur_ter)
-              
+            
+            
+            #Finding out if the property is furnished 
+            if "meublé" in i and "pas" not in i:
+                
+                furnished = 1
+            
+            #Finding out if there is an open fire
+            
+            if "Feu ouvert" in i:
+                
+                open_fire = 1
+                
             #Finding the number of facades
             if "Façades" in i:
                 
@@ -160,20 +174,11 @@ def get_info_prop(url):
     driver.close()
     
     #returning all the variables to store them in our pandas dataframe
-    return locality, price, room, terasse, sur_terasse, jardin, sur_jardin, sur_habi, sur_ter, fa, piscine, state
+    return (locality, type_prop, price, room, kitchen, terasse, 
+            sur_terasse, jardin, sur_jardin, sur_habi, sur_ter, furnished, 
+            open_fire, fa, piscine, state)
           
         
-#url='https://www.immoweb.be/fr/annonce/appartement/a-vendre/kraainem/1950/9034494?searchId=5fb4d951dbabd'
-
-url = "https://www.immoweb.be/fr/annonce/maison/a-vendre/louveigne/4141/9035860"           
-test = get_info_prop(url)      
-
-print(test[0])
-        
-
-
-
-
 
 
 

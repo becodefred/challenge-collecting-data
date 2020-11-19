@@ -14,7 +14,6 @@ def create_db():
         "Subtype",
         "Price",
         "Number_rooms",
-        "Area",
         "Fully_equipped_kitchen",
         "Furnished",
         "Open_fire",
@@ -37,30 +36,30 @@ def create_db():
 immo_db = create_db()
 
 
+def add_value(df, locality, typ, price, room, kitchen, terasse, sur_terasse, 
+              jardin, sur_jardin, sur_habi, sur_ter, furnished, open_fire, 
+              fa, piscine, state):
+    
 
-#Adding a new value to the dataframe
-immo_db = immo_db.append({    
-    "Locality" : "Liège",
-    "Type" : "Flat",
-    "Subtype" : None,
-    "Price" : 200.000,
-    "Number_rooms" : "",
-    "Area" : "",
-    "Fully_equipped_kitchen" : "",
-    "Furnished" : "",
-    "Open_fire" : "",
-    "Terrace" : "",
-    "Ter_Area" : "",
-    "Garden" : "",
-    "Area_garden" : "",
-    "Livable_surface_area" : "",
-    "Surface_area_land" : "",
-    "Numb_facades" : "",
-    "Swimming_pool" : "",
-    "State" : ""}, ignore_index=True)
-print(immo_db)
+    #Adding a new value to the dataframe
+    df = df.append({    
+        "Locality" : locality,
+        "Type" : typ,
+        "Price" : price,
+        "Number_rooms" : room,
+        "Fully_equipped_kitchen" : kitchen,
+        "Furnished" : furnished,
+        "Open_fire" : open_fire,
+        "Terrace" : terasse,
+        "Ter_Area" : sur_terasse,
+        "Garden" : jardin,
+        "Area_garden" : sur_jardin,
+        "Livable_surface_area" : sur_habi,
+        "Surface_area_land" : sur_ter,
+        "Numb_facades" : fa,
+        "Swimming_pool" : piscine,
+        "State" : state}, ignore_index=True)
 
+    return df
 
-#exporting the dataframe to a csv file
-immo_db.to_csv("", index=False)
 
