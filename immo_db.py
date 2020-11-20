@@ -11,7 +11,6 @@ def create_db():
     col_names = [
         "Locality",
         "Type",
-        "Subtype",
         "Price",
         "Number_rooms",
         "Fully_equipped_kitchen",
@@ -24,7 +23,7 @@ def create_db():
         "Livable_surface_area",
         "Surface_area_land",
         "Numb_facades",
-        "Swimming_pool"
+        "Swimming_pool",
         "State"
     ]
     
@@ -36,7 +35,7 @@ def create_db():
 immo_db = create_db()
 
 
-def add_value(df, locality, typ, price, room, kitchen, terasse, sur_terasse, 
+def add_value(df, locality, typ, price, room, kitchen, terrasse, sur_terrasse, 
               jardin, sur_jardin, sur_habi, sur_ter, furnished, open_fire, 
               fa, piscine, state):
     
@@ -50,8 +49,8 @@ def add_value(df, locality, typ, price, room, kitchen, terasse, sur_terasse,
         "Fully_equipped_kitchen" : kitchen,
         "Furnished" : furnished,
         "Open_fire" : open_fire,
-        "Terrace" : terasse,
-        "Ter_Area" : sur_terasse,
+        "Terrace" : terrasse,
+        "Ter_Area" : sur_terrasse,
         "Garden" : jardin,
         "Area_garden" : sur_jardin,
         "Livable_surface_area" : sur_habi,

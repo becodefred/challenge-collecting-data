@@ -5,6 +5,8 @@ import selenium
 
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.firefox.options import Options
+
 
 
 def joiner_num(li): 
@@ -21,6 +23,7 @@ def joiner_num(li):
         
     return li
 
+
 def joiner_word(lo): 
     
     '''
@@ -35,7 +38,7 @@ def joiner_word(lo):
         
     return lo
 
-def get_info_prop(url, prop):
+def get_info_prop(url):
     
     
     '''
@@ -50,12 +53,10 @@ def get_info_prop(url, prop):
     
     
     #Setting up variables and give them default values
-    locality = None
-    type_prop = prop
     price = None
     room = None
-    terasse = 0
-    sur_terasse = None
+    terrasse = 0
+    sur_terrasse = None
     kitchen = 0
     jardin = 0
     sur_jardin = None
@@ -67,9 +68,12 @@ def get_info_prop(url, prop):
     piscine = 0
     state = None
     
-
+    
+    options = Options()
+    options.headless = True
+    
     #setting up the driver
-    driver = webdriver.Firefox(executable_path = r"C:\Users\Guillaume\Geckodriver\geckodriver.exe")
+    driver = webdriver.Firefox(options=options, executable_path = r"C:\Users\Guillaume\Geckodriver\geckodriver.exe")
     
     #Going to the webpage
     driver.get(url)
@@ -86,24 +90,25 @@ def get_info_prop(url, prop):
         #Going through all data to identify their role
         for i in spt:
         
-            #Used to extract the locality from the website
-            x = re.search("[0-9]{4} - ", i)
-            if x:
-                
-                i = i.split("- ")
-                locality = i[1]
+
             
             #Finding the price and recompose it using joiner_num
             if "Prix" in i:
                 
                 price = re.findall("\d",i)
-                price = joiner_num(price)
+                if len(price) > 1:
+                    
+                    price = joiner_num(price)[0]
+                
+                else:
+                    
+                    price = None
             
             #Finding the number of rooms and not their surface
             if "Chambres" in i and "Surface" not in i:
                 
                 room = re.findall("\d",i)
-                room = joiner_num(room)
+                room = joiner_num(room)[0]
             
             #Finding if the kitchen is equiped or not 
             # 1: Yes and 0: No
@@ -113,11 +118,11 @@ def get_info_prop(url, prop):
             
             #Finding if a terasse is present and its area
             #if not terasse keeps its default value of 0
-            if "terasse" in i and "Surface" in i:
+            if "terrasse" in i and "Surface" in i:
                 
-                terasse = 1
-                sur_terasse = re.findall("\d",i)
-                sur_terasse = joiner_num(sur_terasse)
+                terrasse = 1
+                sur_terrasse = re.findall("\d",i)
+                sur_terrasse = joiner_num(sur_terrasse)[0]
                 
                 
             #Finding if a garden is present and its area 
@@ -126,19 +131,19 @@ def get_info_prop(url, prop):
                 
                 jardin = 1
                 sur_jardin = re.findall("\d",i)
-                sur_jardin = joiner_num(sur_jardin)
+                sur_jardin = joiner_num(sur_jardin)[0]
             
             #Finding the living area
             if "Surface habitable" in i:
                 
                 sur_habi = re.findall("\d",i)
-                sur_habi = joiner_num(sur_habi)
+                sur_habi = joiner_num(sur_habi)[0]
                 
             #Finding out the total land area
             if "Surface du terrain" in i:
                 
                 sur_ter = re.findall("\d",i)
-                sur_ter = joiner_num(sur_ter)
+                sur_ter = joiner_num(sur_ter)[0]
             
             
             #Finding out if the property is furnished 
@@ -156,7 +161,7 @@ def get_info_prop(url, prop):
             if "Façades" in i:
                 
                 fa = re.findall("\d",i)
-                fa = joiner_num(fa)
+                fa = joiner_num(fa)[0]
              
             #Finding if there is a pool
             if "piscine" in i or "Piscine" in i:
@@ -168,14 +173,14 @@ def get_info_prop(url, prop):
                 
                 et = i.split()
                 state = et[3:]
-                state = joiner_word(state)
+                state = joiner_word(state)[0]
       
     
     driver.close()
     
     #returning all the variables to store them in our pandas dataframe
-    return (locality, type_prop, price, room, kitchen, terasse, 
-            sur_terasse, jardin, sur_jardin, sur_habi, sur_ter, furnished, 
+    return (price, room, kitchen, terrasse, 
+            sur_terrasse, jardin, sur_jardin, sur_habi, sur_ter, furnished, 
             open_fire, fa, piscine, state)
           
         
