@@ -38,7 +38,7 @@ def joiner_word(lo):
         
     return lo
 
-def get_info_prop(url):
+def get_info_prop(url, driver):
     
     
     '''
@@ -69,11 +69,11 @@ def get_info_prop(url):
     state = None
     
     
-    options = Options()
-    options.headless = True
+    #options = Options()
+    #options.headless = True
     
     #setting up the driver
-    driver = webdriver.Firefox(options=options, executable_path = r"C:\Users\Guillaume\Geckodriver\geckodriver.exe")
+    #driver = webdriver.Firefox(options=options, executable_path = r"C:\Users\Guillaume\Geckodriver\geckodriver.exe")
     
     #Going to the webpage
     driver.get(url)
@@ -176,7 +176,7 @@ def get_info_prop(url):
                 state = joiner_word(state)[0]
       
     
-    driver.close()
+    #driver.close()
     
     #returning all the variables to store them in our pandas dataframe
     return (price, room, kitchen, terrasse, 

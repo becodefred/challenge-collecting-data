@@ -8,16 +8,11 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.firefox.options import Options
 
-#url='https://www.immoweb.be/fr/recherche/maison-et-appartement/a-vendre?countries=BE'
 
-
-def explore_page(url, df):
+def explore_page(url, df, driver):
     
     
 
-    options = Options()
-    options.headless = True
-    driver = webdriver.Firefox(options=options, executable_path = r"C:\Users\Guillaume\Geckodriver\geckodriver.exe")
     
     #Going to the webpage
     driver.get(url)
@@ -40,11 +35,11 @@ def explore_page(url, df):
         
         pu.append(j.text)
     
-    driver.close()
+    #driver.close()
     
     for y in range(len(links)):
         
-       info = get_info_prop(links[y])
+       info = get_info_prop(links[y], driver)
        
            
        x = re.search("[0-9]{4} ", pu[y])
