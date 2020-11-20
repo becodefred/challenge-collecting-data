@@ -10,8 +10,9 @@ def create_db():
     #Creating columns names for our dataframe 
     col_names = [
         "Locality",
-        "Postal code"
+        "Postal code",
         "Type",
+        "Build",
         "Price",
         "Number_rooms",
         "Fully_equipped_kitchen",
@@ -36,7 +37,7 @@ def create_db():
 immo_db = create_db()
 
 
-def add_value(df, locality, postal_code, typ, price, room, kitchen, terrasse, sur_terrasse, 
+def add_value(df, locality, postal_code, typ, build, price, room, kitchen, terrasse, sur_terrasse, 
               jardin, sur_jardin, sur_habi, sur_ter, furnished, open_fire, 
               fa, piscine, state):
     
@@ -46,6 +47,7 @@ def add_value(df, locality, postal_code, typ, price, room, kitchen, terrasse, su
         "Locality" : locality,
         "Postal code" : postal_code,
         "Type" : typ,
+        "Build" : build,
         "Price" : price,
         "Number_rooms" : room,
         "Fully_equipped_kitchen" : kitchen,

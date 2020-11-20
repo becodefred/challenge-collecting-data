@@ -34,6 +34,7 @@ print(immo_db)
 #immo_db.to_csv(r"C:\Users\Guillaume\git\challenge-collecting-data\test.csv", index=False)
 
 
+    
 
 
 

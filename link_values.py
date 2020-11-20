@@ -53,7 +53,6 @@ def get_info_prop(url, driver):
     
     
     #Setting up variables and give them default values
-    price = None
     room = None
     terrasse = 0
     sur_terrasse = None
@@ -84,102 +83,90 @@ def get_info_prop(url, driver):
     #3 main blocks of information are identified
     for u in elem:
         
-        #Spliting all pieces of information
-        spt = u.text.split("\n")
-        
-        #Going through all data to identify their role
-        for i in spt:
-        
-
+        if "\n" in u:
+            #Spliting all pieces of information
+            spt = u.text.split("\n")
             
-            #Finding the price and recompose it using joiner_num
-            if "Prix" in i:
+            #Going through all data to identify their role
+            for i in spt:
+            
                 
-                price = re.findall("\d",i)
-                if len(price) > 1:
+                #Finding the number of rooms and not their surface
+                if "Chambres" in i and "Surface" not in i:
                     
-                    price = joiner_num(price)[0]
+                    room = re.findall("\d",i)
+                    room = joiner_num(room)[0]
                 
-                else:
+                #Finding if the kitchen is equiped or not 
+                # 1: Yes and 0: No
+                if "cuisine" in i and "équipée" in i and "pas" not in i:
+                    kitchen = 1
+                
+                
+                #Finding if a terasse is present and its area
+                #if not terasse keeps its default value of 0
+                if "terrasse" in i and "Surface" in i:
                     
-                    price = None
-            
-            #Finding the number of rooms and not their surface
-            if "Chambres" in i and "Surface" not in i:
+                    terrasse = 1
+                    sur_terrasse = re.findall("\d",i)
+                    sur_terrasse = joiner_num(sur_terrasse)[0]
+                    
+                    
+                #Finding if a garden is present and its area 
+                #if not garden keeps its default value of 0
+                if "jardin" in i and "Surface" in i:
+                    
+                    jardin = 1
+                    sur_jardin = re.findall("\d",i)
+                    sur_jardin = joiner_num(sur_jardin)[0]
                 
-                room = re.findall("\d",i)
-                room = joiner_num(room)[0]
-            
-            #Finding if the kitchen is equiped or not 
-            # 1: Yes and 0: No
-            if "cuisine" in i and "équipée" in i and "pas" not in i:
-                kitchen = 1
-            
-            
-            #Finding if a terasse is present and its area
-            #if not terasse keeps its default value of 0
-            if "terrasse" in i and "Surface" in i:
-                
-                terrasse = 1
-                sur_terrasse = re.findall("\d",i)
-                sur_terrasse = joiner_num(sur_terrasse)[0]
+                #Finding the living area
+                if "Surface habitable" in i:
+                    
+                    sur_habi = re.findall("\d",i)
+                    sur_habi = joiner_num(sur_habi)[0]
+                    
+                #Finding out the total land area
+                if "Surface du terrain" in i:
+                    
+                    sur_ter = re.findall("\d",i)
+                    sur_ter = joiner_num(sur_ter)[0]
                 
                 
-            #Finding if a garden is present and its area 
-            #if not garden keeps its default value of 0
-            if "jardin" in i and "Surface" in i:
+                #Finding out if the property is furnished 
+                if "meublé" in i and "pas" not in i:
+                    
+                    furnished = 1
                 
-                jardin = 1
-                sur_jardin = re.findall("\d",i)
-                sur_jardin = joiner_num(sur_jardin)[0]
-            
-            #Finding the living area
-            if "Surface habitable" in i:
+                #Finding out if there is an open fire
                 
-                sur_habi = re.findall("\d",i)
-                sur_habi = joiner_num(sur_habi)[0]
+                if "Feu ouvert" in i:
+                    
+                    open_fire = 1
+                    
+                #Finding the number of facades
+                if "Façades" in i:
+                    
+                    fa = re.findall("\d",i)
+                    fa = joiner_num(fa)[0]
+                 
+                #Finding if there is a pool
+                if "piscine" in i or "Piscine" in i:
+                    
+                    piscine = 1
                 
-            #Finding out the total land area
-            if "Surface du terrain" in i:
-                
-                sur_ter = re.findall("\d",i)
-                sur_ter = joiner_num(sur_ter)[0]
-            
-            
-            #Finding out if the property is furnished 
-            if "meublé" in i and "pas" not in i:
-                
-                furnished = 1
-            
-            #Finding out if there is an open fire
-            
-            if "Feu ouvert" in i:
-                
-                open_fire = 1
-                
-            #Finding the number of facades
-            if "Façades" in i:
-                
-                fa = re.findall("\d",i)
-                fa = joiner_num(fa)[0]
-             
-            #Finding if there is a pool
-            if "piscine" in i or "Piscine" in i:
-                
-                piscine = 1
-            
-            #Finding the state of the house
-            if "État" in i:
-                
-                et = i.split()
-                state = et[3:]
-                state = joiner_word(state)[0]
+                #Finding the state of the house
+                if "État" in i:
+                    
+                    et = i.split()
+                    state = et[3:]
+                    state = joiner_word(state)[0]
       
     
-    #driver.close()
+    
     
     #returning all the variables to store them in our pandas dataframe
-    return (price, room, kitchen, terrasse, 
+    return (room, kitchen, terrasse, 
             sur_terrasse, jardin, sur_jardin, sur_habi, sur_ter, furnished, 
             open_fire, fa, piscine, state)
           
