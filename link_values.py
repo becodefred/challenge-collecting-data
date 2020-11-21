@@ -42,9 +42,11 @@ def get_info_prop(url, driver):
     
     
     '''
-    Function that takes an url to work: this url will be used 
-    to access the page using selenium.
-    When the page has been scraped, it isolates needed values 
+    Function that takes an url to work and a driver:
+        - this url of the page will use
+        - the driver needed to access the pages with selenium
+    
+    When the page has been scraped, it returns the needed values 
     in order to store them later in a pandas dataframe.
     
     '''
@@ -68,22 +70,20 @@ def get_info_prop(url, driver):
     state = None
     
     
-    #options = Options()
-    #options.headless = True
-    
-    #setting up the driver
-    #driver = webdriver.Firefox(options=options, executable_path = r"C:\Users\Guillaume\Geckodriver\geckodriver.exe")
-    
     #Going to the webpage
     driver.get(url)
     
     #Scraping data from the following class
     elem = driver.find_elements_by_class_name("accordion--section")
     
-    #3 main blocks of information are identified
+    #loop to run all the blocks of information identified in immoweb
     for u in elem:
         
-        if "\n" in u:
+        #Condition to check if the block has info in it
+        NoneType = type(None)
+        if type(u) != NoneType:
+            
+            
             #Spliting all pieces of information
             spt = u.text.split("\n")
             
@@ -92,6 +92,8 @@ def get_info_prop(url, driver):
             
                 
                 #Finding the number of rooms and not their surface
+                #We call joiner_num in order to gather the numbers found using Regex
+                #Once the numbers are one, we extract it from the list
                 if "Chambres" in i and "Surface" not in i:
                     
                     room = re.findall("\d",i)
@@ -134,7 +136,7 @@ def get_info_prop(url, driver):
                 
                 
                 #Finding out if the property is furnished 
-                if "meublé" in i and "pas" not in i:
+                if "Meublé" in i and "pas" not in i:
                     
                     furnished = 1
                 
@@ -156,6 +158,7 @@ def get_info_prop(url, driver):
                     piscine = 1
                 
                 #Finding the state of the house
+                #We extract the value after "Etat du bâtiment"
                 if "État" in i:
                     
                     et = i.split()

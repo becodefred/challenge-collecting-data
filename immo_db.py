@@ -7,6 +7,11 @@ from selenium.webdriver.common.keys import Keys
 
 def create_db():
     
+    '''
+    Function built to create an empty dataframe with 
+    the following column names
+    '''
+    
     #Creating columns names for our dataframe 
     col_names = [
         "Locality",
@@ -34,14 +39,16 @@ def create_db():
     
     return x
 
-immo_db = create_db()
-
 
 def add_value(df, locality, postal_code, typ, build, price, room, kitchen, terrasse, sur_terrasse, 
               jardin, sur_jardin, sur_habi, sur_ter, furnished, open_fire, 
               fa, piscine, state):
     
-
+    '''
+    Function that adds a row of information to the dataframe
+    IT takes as arguments all the data gathered while scraping 
+    
+    '''
     #Adding a new value to the dataframe
     df = df.append({    
         "Locality" : locality,
