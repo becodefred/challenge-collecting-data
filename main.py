@@ -19,13 +19,13 @@ immo_db = create_db()
 options = Options()
 options.headless = True
 options.binary = r"C:\Program Files\Mozilla Firefox\firefox.exe"
-driver = webdriver.Firefox(options=options, executable_path = r"C:\Users\Guillaume\Documents\challenge-collecting-data\geckodriver.exe")
+driver = webdriver.Firefox(options=options)
 
 #Extracting data from the pages of "immoweb.be"
-for p in range(34):
+for p in range(334):
     
     #To access the right page, we need to increase p by 1
-    p += 300
+    p += 1
     
     #For the first page, the url is slightly different
     if p == 1:
@@ -66,7 +66,7 @@ print(immo_db)
 driver.close()
 #exporting the csv file
 
-immo_db.to_csv(r"C:\Users\Guillaume\Documents\challenge-collecting-data\buy_300-334.csv", index=False)
+immo_db.to_csv(r"C:\Users\Guillaume\Documents\challenge-collecting-data\immoweb_database.csv", index=False)
   
 
 
