@@ -1,6 +1,6 @@
 BeCode challenge : from 18/11/2020 to 23/11/2020 \
 Name of the challenge : ImmoEliza \
-Contributors : Guillaume, Reza, Frédéric \
+Contributors : Guillaume, Reza, Frédéric 
 
 
 #Collect data from immoweb
